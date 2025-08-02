@@ -55,6 +55,10 @@ st.markdown(
     '<h1 style="text-align: center; color: #1a3c1a;">Monitoreo de Transporte y Fallas – Industria Metalúrgica</h1>',
     unsafe_allow_html=True
 )
+st.markdown(
+    '<h3 style="text-align: center; color: white;">Sergio Diaz Colina</h3>',
+    unsafe_allow_html=True
+)
 
 # Asegura que no haya NaN y todo sea string para los filtros
 df['LINEA'] = df['LINEA'].fillna('Línea B').astype(str)

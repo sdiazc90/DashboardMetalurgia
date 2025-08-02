@@ -87,18 +87,33 @@ if tipo_acero != 'Todos':
 if transporte != 'Todos':
     df_filtrado = df_filtrado[df_filtrado['TRANSPORTE'] == transporte]
 
+total_trucks = len(df_filtrado)
+# Cantidad de fallas: si es numérico sumás, si no contás no nulos
+if pd.api.types.is_numeric_dtype(df_filtrado['FALLAS']):
+    total_failures = df_filtrado['FALLAS'].sum()
+    avg_failures = df_filtrado['FALLAS'].mean()
+else:
+    total_failures = df_filtrado['FALLAS'].notna().sum()
+    avg_failures = None
+
+failure_rate = (total_failures / total_trucks * 100) if total_trucks else 0
+
+
+col3.metric("Fallas / Camiones", f"{failure_rate:.1f} %")
+
 # Métricas principales
 col1, col2, col3, col4 = st.columns(4)
 col1.metric("Cantidad Total de Camiones", len(df_filtrado))
 col2.metric("Cantidad de Fallas", df_filtrado['FALLAS'].notna().sum())
-col3.metric("Peso Neto Total", f"{df_filtrado['PESO NETO'].sum():,.0f}")
-col4.metric("Promedio en Viaje (min)", f"{df_filtrado['TIEMPO_VIAJE_MIN'].mean():.1f}")
+col3.metric("Fallas / Camiones", f"{failure_rate:.1f} %")
+col4.metric("Peso Neto Total", f"{df_filtrado['PESO NETO'].sum():,.0f}")
+
 
 col5, col6, col7, col8 = st.columns(4)
 col5.metric("Promedio en Espera (min)", f"{df_filtrado['TIEMPO_ESPERA_MIN'].mean():.1f}")
 col6.metric("Promedio de Descarga (min)", f"{df_filtrado['TIEMPO_DESCARGA_MIN'].mean():.1f}")
 col7.metric("Promedio en Temperatura", f"{df_filtrado['TEMPERATURA'].mean():.1f}")
-col8.metric("Cantidad de Fallas", df_filtrado['FALLAS'].sum() if df_filtrado['FALLAS'].dtype != 'O' else df_filtrado['FALLAS'].notna().sum())
+col8.metric("Promedio en Viaje (min)", f"{df_filtrado['TIEMPO_VIAJE_MIN'].mean():.1f}")
 
 # Prepara datos para gráficos
 df_filtrado['DIA'] = df_filtrado['SALIDA DEL PROVEEDOR'].dt.date

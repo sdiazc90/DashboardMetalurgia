@@ -31,7 +31,7 @@ st.markdown("""
 
 
 # Carga de datos
-df = pd.read_csv(r'c:\Users\nono_\Dashboard\LOGISTICA.csv', sep=';')
+df = pd.read_csv('LOGISTICA.csv', sep=';')
 
 # Elimina cualquier columna que contenga 'index' en su nombre
 cols_to_drop = [col for col in df.columns if 'index' in col.lower()]

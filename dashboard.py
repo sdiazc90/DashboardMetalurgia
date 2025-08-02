@@ -45,6 +45,7 @@ df['LLEGADA A FÁBRICA'] = pd.to_datetime(df['LLEGADA A FÁBRICA'], dayfirst=Tru
 
 # Elimina toda la fila de Antonio Medina
 df = df[df['SUPERVISOR'] != 'Antonio Medina']
+df = df[df['TIPO_ACERO'] != 'ACERO INOX']
 
 # Variables temporales
 df['TIEMPO_DESCARGA_MIN'] = (df['FIN DESCARGA'] - df['INICIO DESCARGA']).dt.total_seconds() / 60
